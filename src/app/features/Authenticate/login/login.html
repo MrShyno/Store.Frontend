@@ -1,0 +1,53 @@
+<div class="login-container">
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p class="title">ورود</p>
+    <p class="message">برای دسترسی به داشبورد مدیریت خود وارد شوید.</p>
+
+    <label>
+      <input
+        required
+        type="text"
+        class="input"
+        formControlName="phone"
+        placeholder=""
+        autocomplete="phone"
+      >
+      <span>تلفن</span>
+    </label>
+
+    <label>
+      <input
+        required
+        type="password"
+        class="input"
+        formControlName="password"
+        placeholder=" "
+        autocomplete="current-password"
+      >
+      <span>رمز عبور</span>
+    </label>
+
+    @if (errorMessage()) {
+      <div class="error-message">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <button
+      type="submit"
+      class="submit"
+      [disabled]="loginForm.invalid || isLoading()"
+    >
+      @if (!isLoading()) {
+        <span>ورود</span>
+      } @else {
+        <span>در حال بارگذاری...</span>
+      }
+    </button>
+
+    <p class="signin">
+      حساب کاربری ندارید؟
+      <a routerLink="/auth/register">ثبت نام</a>
+    </p>
+  </form>
+</div>
