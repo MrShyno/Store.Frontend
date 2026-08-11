@@ -1,10 +1,10 @@
+import { Sidebar } from './../../shared/components/sidebar/sidebar';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthenticateService } from '../../core/services/authenticate';
 import { Router } from '@angular/router';
 import { Header } from '../../shared/components/header/header';
-import { Sidebar } from '../../shared/components/sidebar/sidebar';
 
 @Component({
   selector: 'app-admin-layout',

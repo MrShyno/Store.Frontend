@@ -54,6 +54,7 @@
 
 .login-container .signin a {
   color: royalblue;
+  cursor: pointer;
 }
 
 .login-container .signin a:hover {
@@ -110,12 +111,13 @@
 .login-container .submit {
   border: none;
   outline: none;
+  cursor: pointer;
   background-color: royalblue;
   padding: 10px;
   border-radius: 10px;
   color: #fff;
   font-size: 16px;
-  transform: .3s ease;
+  transition: transform 0.3s ease;
 }
 
 .submit:hover {

@@ -1,15 +1,2 @@
 /* You can add global styles to this file, and also import other style files */
-*{
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-@font-face {
-  font-family: 'IRANSans';
-  src: url('../public/assets/fonts/IRANSans-web.woff') format('woff2'),
-       url('../public/assets/fonts/IranianSansRegular.ttf') format('ttf');
-}
-body {
-  margin: 0;
-  font-family: 'IRANSans', Arial, sans-serif;
-}
+

@@ -1,8 +1,7 @@
-import { Login } from './features/Authenticate/login/login';
 import { Routes } from '@angular/router';
 import { authenticateGuard } from './core/guards/authenticate-guard';
+import { hasPermissionGuard } from './core/guards/hasPermission/has-permission-guard';
 import { AdminLayout } from './layout/admin-layout/admin-layout';
-import { AuthLayout } from './layout/auth-layout/auth-layout';
 
 export const routes: Routes = [
   {
@@ -33,6 +32,12 @@ export const routes: Routes = [
         path: 'analytics',
         loadComponent: () => import('./features/dashboard/analytics/analytics')
           .then(m => m.Analytics)
+      },
+      {
+        path: 'users',
+        canActivate: [hasPermissionGuard('usersGetAllUsers')],
+        loadComponent: () => import('./features/dashboard/users/list/user-list')
+          .then(m => m.UserList)
       },
       { path: '', redirectTo: 'index', pathMatch: 'full' }
     ]

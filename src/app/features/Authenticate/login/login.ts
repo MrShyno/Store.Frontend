@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthenticateService } from '../../../core/services/authenticate';
+import { ToastService } from '../../../core/services/toast/toast';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,16 @@ export class Login {
   isLoading = signal(false);
   errorMessage = signal('');
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthenticateService,
-    private router: Router
-  ) {
+  ngOnInit() {
+    console.log(document.cookie);
+  }
+  constructor
+    (
+      private fb: FormBuilder,
+      private authService: AuthenticateService,
+      private router: Router,
+      private toast: ToastService
+    ) {
     this.loginForm = this.fb.group({
       phone: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]]
@@ -38,14 +44,20 @@ export class Login {
     this.authService.login(phone, password).subscribe({
       next: (response) => {
         this.isLoading.set(false);
-        if (response.success) {
+        if (response.isSuccess) {
+          this.toast.success('خوش آمدید!', 'ورود موفق');
           this.router.navigate(['/dashboard/index']);
         }
       },
       error: (error) => {
         this.isLoading.set(false);
-        this.errorMessage.set('Invalid phone or password');
-        console.error('Login failed:', error);
+        if (error.error.Errors?.length > 0) {
+          for (const err of error.error.Errors) {
+            this.toast.error(err);
+          }
+        } else {
+          this.toast.error(error.error.message ?? 'خطای نامشخص');
+        }
       }
     });
   }
