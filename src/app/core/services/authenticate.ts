@@ -104,13 +104,7 @@ export class AuthenticateService {
         return of(this.currentUserSubject.value as unknown as UserFullDataResponse);
     }
 
-    return this.fetchUserWithRolePermissions().pipe(
-        tap(response => {
-            if (response.isSuccess && response.data) {
-                // currentUserSubject is already set inside fetchUserWithRolePermissions
-            }
-        })
-    );
+    return this.fetchUserWithRolePermissions();
 }
   logout(): void {
     sessionStorage.removeItem('user_info');
@@ -118,19 +112,12 @@ export class AuthenticateService {
     this.currentUser.set(null);
     this.userName.set('');
     this.userPermissions.set([]);
-    var refreshToken = this.tokenStorage.getRefreshToken();
-    const data = {
-      refreshToken : refreshToken
-    };
     this.tokenStorage.clearTokens();
-    this.httpService.post('admin/Authentication/Logout', {data}).subscribe();
+    this.httpService.post('admin/Authentication/Logout', {}).subscribe();
   }
 
-  refreshToken(accessToken: string, refreshToken: string): Observable<RefreshTokenResponse> {
-    return this.httpService.post<RefreshTokenResponse>('admin/Authentication/RefreshToken', {
-      accessToken,
-      refreshToken
-    });
+  refreshToken(): Observable<RefreshTokenResponse> {
+    return this.httpService.post<RefreshTokenResponse>('admin/Authentication/RefreshToken', {});
   }
 
   getCurrentUser(): UserFullData | null {

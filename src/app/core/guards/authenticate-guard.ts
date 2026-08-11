@@ -4,23 +4,17 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthenticateService } from '../services/authenticate';
 import { map, catchError, of } from 'rxjs';
 
-export const authenticateGuard: CanActivateFn = (route, state) => {
-    const authService = inject(AuthenticateService);
-    const router = inject(Router);
+export const authenticateGuard: CanActivateFn = () => {
+  const authService = inject(AuthenticateService);
+  const router = inject(Router);
 
-    if (authService.isLoggedIn()) {
-        return true;
-    }
+  if (authService.isLoggedIn()) return true;
 
-    return authService.restoreSession().pipe(
-        map(() => {
-            return true;
-        }),
-        catchError(() => {
-            router.navigate(['/auth/login'], {
-                queryParams: { returnUrl: state.url }
-            });
-            return of(false);
-        })
-    );
+  return authService.fetchUserWithRolePermissions().pipe(
+    map(() => true),
+    catchError(() => {
+      router.navigate(['/auth/login']);
+      return of(false);
+    })
+  );
 };
