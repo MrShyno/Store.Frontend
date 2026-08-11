@@ -15,5 +15,9 @@ import { Header } from '../../shared/components/header/header';
 })
 export class AdminLayout {
   constructor(private authService: AuthenticateService, private router: Router) {}
-  // Handle logout event from Header component
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
 }
