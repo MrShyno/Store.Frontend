@@ -15,4 +15,15 @@ export class Header {
   onLogout(): void {
     this.logout.emit();
   }
+
+  openDropdown: 'notifications' | 'user' | null = null;
+
+  toggleDropdown(type: 'notifications' | 'user'): void {
+    this.openDropdown =
+      this.openDropdown === type ? null : type;
+  }
+
+  closeDropdown(): void {
+    this.openDropdown = null;
+  }
 }

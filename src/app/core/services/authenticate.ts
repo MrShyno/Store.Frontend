@@ -2,7 +2,8 @@ import { Injectable, signal, inject } from '@angular/core';
 import { BehaviorSubject, Observable, tap, of, switchMap } from 'rxjs';
 import { HttpService } from './http';
 import { TokenStorageService } from './token-storage/token-storage';
-import { UserInfo, UserFullData } from '../../models/user';
+import { UserInfo, UserFullData } from '../../models/Users/user';
+import { CaptchaResponse } from '../../models/Captcha/CaptchaResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -37,50 +38,74 @@ export class AuthenticateService {
     }
   }
 
-  login(phone: string, password: string): Observable<UserFullDataResponse> {
-    return this.httpService.post<LoginResponse>('admin/Authentication/LoginWithPassword', {
-      phone, password
-    }).pipe(
-      switchMap(response => {
-        if (response.isSuccess && response.data) {
-          // Save tokens in memory for refresh
-          this.tokenStorage.setTokens(
-            response.data.accessToken,
-            response.data.refreshToken
-          );
-          // Fetch full user info and return that observable
-          return this.fetchUserWithRolePermissions();
-        }
-        throw new Error('Login failed');
-      })
+  generateCaptcha(): Observable<CaptchaResponse> {
+    return this.httpService.post<CaptchaResponse>(
+      'admin/Authentication/GenerateCaptcha', null
     );
   }
 
-  fetchUserWithRolePermissions(): Observable<UserFullDataResponse> {
-    return this.httpService.get<UserFullDataResponse>('admin/Users/GetUserWithRolePermissions')
-    .pipe(
-      tap(response => {
-        if (response.isSuccess && response.data) {
-          const userData = response.data;
+  login
+    (
+      phone: string,
+      password: string,
+      captchaId: string,
+      captchaAnswer: string
+    ): Observable<UserFullDataResponse> {
 
-          this.currentUserSubject.next(userData);
-
-          const userInfo: UserInfo = {
-            userId: userData.id,
-            firstName: userData.firstName,
-            lastName: userData.lastName
-          };
-
-          this.currentUser.set(userInfo);
-          this.userName.set(`${userInfo.firstName} ${userInfo.lastName}`);
-
-          const permissions = userData.roles.flatMap(role => role.permissions);
-          this.userPermissions.set(permissions);
-
-          sessionStorage.setItem('user_info', JSON.stringify(userInfo));
+    return this.httpService
+      .post<LoginResponse>(
+        'admin/Authentication/LoginWithPassword',
+        {
+          phone,
+          password,
+          captchaId,
+          captchaAnswer
         }
-      })
-    );
+      )
+      .pipe(
+        switchMap(response => {
+
+          if (response.isSuccess && response.data) {
+
+            this.tokenStorage.setTokens(
+              response.data.accessToken,
+              response.data.refreshToken
+            );
+
+            return this.fetchUserWithRolePermissions();
+          }
+
+          throw new Error('Login failed');
+        })
+      );
+  }
+
+  fetchUserWithRolePermissions(): Observable<UserFullDataResponse> {
+    return this.httpService
+      .get<UserFullDataResponse>('admin/Users/GetUserWithRolePermissions')
+      .pipe(
+        tap(response => {
+          if (response.isSuccess && response.data) {
+            const userData = response.data;
+
+            this.currentUserSubject.next(userData);
+
+            const userInfo: UserInfo = {
+              userId: userData.id,
+              firstName: userData.firstName,
+              lastName: userData.lastName
+            };
+
+            this.currentUser.set(userInfo);
+            this.userName.set(`${userInfo.firstName} ${userInfo.lastName}`);
+
+            const permissions = userData.roles.flatMap(role => role.permissions);
+            this.userPermissions.set(permissions);
+
+            sessionStorage.setItem('user_info', JSON.stringify(userInfo));
+          }
+        })
+      );
   }
 
   hasPermission(permission: string): boolean {
@@ -101,11 +126,11 @@ export class AuthenticateService {
 
   restoreSession(): Observable<UserFullDataResponse> {
     if (this.currentUserSubject.value) {
-        return of(this.currentUserSubject.value as unknown as UserFullDataResponse);
+      return of(this.currentUserSubject.value as unknown as UserFullDataResponse);
     }
 
     return this.fetchUserWithRolePermissions();
-}
+  }
   logout(): void {
     sessionStorage.removeItem('user_info');
     this.currentUserSubject.next(null);

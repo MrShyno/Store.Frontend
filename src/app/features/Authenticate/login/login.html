@@ -1,47 +1,54 @@
 <div class="login-container">
   <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
     <p class="title">ورود</p>
-    <p class="message">برای دسترسی به داشبورد مدیریت خود وارد شوید.</p>
+
+    <p class="message">
+      برای دسترسی به داشبورد مدیریت خود وارد شوید.
+    </p>
 
     <label>
-      <input
-        required
-        type="text"
-        class="input"
-        formControlName="phone"
-        placeholder=""
-        autocomplete="phone"
-      >
+      <input type="text" class="input" formControlName="phone" placeholder="" autocomplete="tel">
       <span>تلفن</span>
     </label>
 
     <label>
-      <input
-        required
-        type="password"
-        class="input"
-        formControlName="password"
-        placeholder=" "
-        autocomplete="current-password"
-      >
+      <input type="password" class="input" formControlName="password" placeholder=" " autocomplete="current-password">
       <span>رمز عبور</span>
     </label>
 
-    @if (errorMessage()) {
-      <div class="error-message">
-        {{ errorMessage() }}
+    <div class="d-flex">
+
+      <div class="d-flex col-lg-6 col-xl-6 col-md-6 col-sm-12">
+        <button type="button" class="captcha-refresh col-2" (click)="generateCaptcha()" [disabled]="captchaLoading()">
+          ↻
+        </button>
+        @if (captchaImage()) {
+        <img [src]="captchaImage()" alt="کد امنیتی" class="captcha-image col-9">
+        }
+
+
       </div>
+
+      <label class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+        <input type="text" class="input" formControlName="captchaAnswer" placeholder=" " autocomplete="off"
+          maxlength="6">
+        <span>کد امنیتی</span>
+      </label>
+
+    </div>
+
+    @if (errorMessage()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
     }
 
-    <button
-      type="submit"
-      class="submit"
-      [disabled]="loginForm.invalid || isLoading()"
-    >
+    <button type="submit" class="submit" [disabled]="loginForm.invalid || isLoading() || captchaLoading()">
       @if (!isLoading()) {
-        <span>ورود</span>
+      <span>ورود</span>
       } @else {
-        <span>در حال بارگذاری...</span>
+      <span>در حال بارگذاری...</span>
       }
     </button>
 
@@ -49,5 +56,6 @@
       حساب کاربری ندارید؟
       <a routerLink="/auth/register">ثبت نام</a>
     </p>
+
   </form>
 </div>

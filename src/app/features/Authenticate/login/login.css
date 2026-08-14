@@ -124,6 +124,19 @@
   background-color: rgb(56, 90, 194);
 }
 
+.captcha-refresh {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0 ;
+  background-color: royalblue;
+  color: #fff;
+}
+.captcha-image{
+  border: 0.5px solid royalblue;
+  border-radius: 4px 0 0 4px;
+}
+
 @keyframes pulse {
   from {
     transform: scale(0.9);
@@ -135,3 +148,5 @@
     opacity: 0;
   }
 }
+
+

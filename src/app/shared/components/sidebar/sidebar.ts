@@ -10,8 +10,21 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./sidebar.css']
 })
 export class Sidebar {
-  menuItems = [
-    { label: 'Dashboard', icon: '📊', route: '/dashboard/index' },
-    { label: 'Analytics', icon: '📈', route: '/dashboard/analytics' },
-  ];
+
+  isSidebarCollapsed = false;
+
+  activeMenu: string | null = 'dashboard';
+
+  toggleMenu(menu: string): void {
+    if (this.activeMenu === menu) {
+      this.activeMenu = null;
+      return;
+    }
+
+    this.activeMenu = menu;
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }

@@ -29,11 +29,6 @@ export const routes: Routes = [
           .then(m => m.Index)
       },
       {
-        path: 'analytics',
-        loadComponent: () => import('./features/dashboard/analytics/analytics')
-          .then(m => m.Analytics)
-      },
-      {
         path: 'users',
         canActivate: [hasPermissionGuard('usersGetAllUsers')],
         loadComponent: () => import('./features/dashboard/users/list/user-list')
