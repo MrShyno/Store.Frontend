@@ -1,1 +1,236 @@
-<p>user-list works!</p>
+<app-data-list
+  [title]="'کاربران'"
+  [description]="'مدیریت و مشاهده کاربران سیستم'"
+  [tableTitle]="'لیست کاربران'"
+
+  [loading]="loading()"
+  [errorMessage]="errorMessage()"
+  [items]="items()"
+
+  [rowCount]="rowCount()"
+
+  [page]="page()"
+  [(pageSize)]="pageSize"
+
+  [totalPages]="totalPages()"
+
+  [(searchText)]="searchText"
+  [(searchField)]="selectedSearchField"
+
+  [searchFields]="searchFields"
+
+  [(orderField)]="selectedOrderField"
+  [(orderDirection)]="selectedOrderDirection"
+
+  [orderFields]="orderFields"
+  [isAddable] = "true"
+
+  (search)="search()"
+  (clear)="clearSearch()"
+
+  (pageChange)="changePage($event)"
+>
+
+  <!-- =====================================================
+       Users Table
+  ====================================================== -->
+
+  <div class="table-responsive">
+
+    <table class="table table-hover align-middle mb-0">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            #
+          </th>
+
+          <th>
+            نام و نام خانوادگی
+          </th>
+
+          <th>
+            موبایل
+          </th>
+
+          <th>
+            ایمیل
+          </th>
+
+          <th>
+            کد ملی
+          </th>
+
+          <th>
+            وضعیت
+          </th>
+
+          <th>
+            تاریخ ایجاد
+          </th>
+
+          <th class="text-center">
+            عملیات
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        @for (user of items(); track user.id) {
+
+          <tr>
+
+            <!-- ID -->
+
+            <td>
+              {{ user.id }}
+            </td>
+
+
+            <!-- Name -->
+
+            <td>
+
+              <div class="d-flex align-items-center">
+
+                <div class="avatar avatar-sm me-2">
+
+                  <span
+                    class="avatar-initial rounded-circle bg-label-primary"
+                  >
+                    {{ user.firstName?.charAt(0) }}
+                  </span>
+
+                </div>
+
+
+                <div>
+
+                  <div class="fw-semibold">
+
+                    {{ user.firstName }}
+                    {{ user.lastName }}
+
+                  </div>
+
+
+                  <small class="text-muted">
+                    ID: {{ user.id }}
+                  </small>
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <!-- Phone -->
+
+            <td>
+              {{ user.phone || '-' }}
+            </td>
+
+
+            <!-- Email -->
+
+            <td>
+              {{ user.email || '-' }}
+            </td>
+
+
+            <!-- National Code -->
+
+            <td>
+              {{ user.nationalCode || '-' }}
+            </td>
+
+
+            <!-- Status -->
+
+            <td>
+
+              @if (!user.disabled) {
+
+                <span
+                  class="badge bg-label-success"
+                >
+                  فعال
+                </span>
+
+              } @else {
+
+                <span
+                  class="badge bg-label-danger"
+                >
+                  غیرفعال
+                </span>
+
+              }
+
+            </td>
+
+
+            <!-- Created At -->
+
+            <td>
+
+              {{ user.createdAt | date:'yyyy/MM/dd HH:mm' }}
+
+            </td>
+
+
+            <!-- Actions -->
+
+            <td>
+
+              <div
+                class="d-flex justify-content-center gap-1"
+              >
+
+                <button
+                  type="button"
+
+                  class="btn btn-sm btn-icon btn-text-secondary"
+
+                  title="مشاهده"
+                >
+
+                  <i class="bx bx-show"></i>
+
+                </button>
+
+
+                <button
+                  type="button"
+
+                  class="btn btn-sm btn-icon btn-text-secondary"
+
+                  title="ویرایش"
+                >
+
+                  <i class="bx bx-edit"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</app-data-list>

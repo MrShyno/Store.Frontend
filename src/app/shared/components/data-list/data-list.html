@@ -1,0 +1,272 @@
+<div class="container-fluid py-4">
+  <!-- =======================================================
+       Header
+  ======================================================== -->
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="mb-1">
+        {{ title() }}
+      </h4>
+
+      @if (description()) {
+        <p class="text-muted mb-0">
+          {{ description() }}
+        </p>
+      }
+    </div>
+    @if (isAddable()) {
+      <button class="btn btn-primary">
+        <i class="bx bx-plus"></i>
+        افزودن
+      </button>
+    }
+  </div>
+
+  <!-- =======================================================
+       Filter
+  ======================================================== -->
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <!-- Search Field -->
+
+        @if (searchFields().length > 0) {
+          <div class="col-md-3">
+            <label class="form-label"> جستجو در </label>
+
+            <select
+              #searchFieldSelect
+              class="form-select"
+              [value]="searchField()"
+              (change)="searchField.set(searchFieldSelect.value)"
+            >
+              @for (field of searchFields(); track field.value) {
+                <option [value]="field.value">
+                  {{ field.label }}
+                </option>
+              }
+            </select>
+          </div>
+        }
+
+        <!-- Search -->
+
+        <div [class]="searchFields().length > 0 ? 'col-md-4' : 'col-md-7'">
+          <label class="form-label"> جستجو </label>
+
+          <input
+            #searchInput
+            type="text"
+            class="form-control"
+            [value]="searchText()"
+            (input)="searchText.set(searchInput.value)"
+            (keyup.enter)="onSearch()"
+            placeholder="عبارت مورد نظر را وارد کنید..."
+          />
+        </div>
+
+        <!-- Order Field -->
+
+        @if (orderFields().length > 0) {
+          <div class="col-md-2">
+            <label class="form-label"> ترتیب بر اساس </label>
+
+            <select
+              #orderFieldSelect
+              class="form-select"
+              [value]="orderField()"
+              (change)="orderField.set(orderFieldSelect.value); onSearch()"
+            >
+              @for (field of orderFields(); track field.value) {
+                <option [value]="field.value">
+                  {{ field.label }}
+                </option>
+              }
+            </select>
+          </div>
+        }
+
+        <!-- Direction -->
+
+        @if (orderFields().length > 0) {
+          <div class="col-md-2">
+            <label class="form-label"> ترتیب </label>
+
+            <select
+              #orderDirectionSelect
+              class="form-select"
+              [value]="orderDirection()"
+              (change)="
+                orderDirection.set(orderDirectionSelect.value === 'asc' ? 'asc' : 'desc');
+                onSearch()
+              "
+            >
+              <option value="asc">صعودی</option>
+
+              <option value="desc">نزولی</option>
+            </select>
+          </div>
+        }
+
+        <!-- Buttons -->
+
+        <div class="col-12 d-flex gap-2">
+          <button type="button" class="btn btn-primary" (click)="onSearch()" [disabled]="loading()">
+            <i class="bx bx-search me-1"></i>
+
+            جستجو
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="onClear()"
+            [disabled]="loading()"
+          >
+            <i class="bx bx-refresh me-1"></i>
+
+            پاک کردن
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       Error
+  ======================================================== -->
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- =======================================================
+       Main Card
+  ======================================================== -->
+
+  <div class="card">
+    <!-- Card Header -->
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        {{ tableTitle() || title() }}
+      </h5>
+
+      <span class="text-muted"> {{ rowCount() }} مورد </span>
+    </div>
+
+    <!-- =====================================================
+         Loading
+    ====================================================== -->
+
+    @if (loading()) {
+      <div class="d-flex flex-column align-items-center justify-content-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden"> Loading... </span>
+        </div>
+
+        <div class="text-muted mt-2">در حال دریافت اطلاعات...</div>
+      </div>
+    }
+
+    <!-- =====================================================
+         Empty
+    ====================================================== -->
+
+    @else if (items().length === 0) {
+      <div class="d-flex flex-column align-items-center justify-content-center py-5">
+        <i class="bx bx-data fs-1 text-muted"></i>
+
+        <div class="mt-2">موردی پیدا نشد</div>
+      </div>
+    }
+
+    <!-- =====================================================
+         Content
+    ====================================================== -->
+
+    @else {
+      <ng-content />
+    }
+
+    <!-- =====================================================
+         Footer
+    ====================================================== -->
+
+    @if (!loading() && items().length > 0) {
+      <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <!-- Page Size -->
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="text-muted"> نمایش </span>
+
+          <select
+            #pageSizeSelect
+            class="form-select form-select-sm"
+            style="width: 80px"
+            [value]="pageSize()"
+            (change)="onPageSizeChange(pageSizeSelect.value)"
+          >
+            <option value="10">10</option>
+
+            <option value="20">20</option>
+
+            <option value="50">50</option>
+
+            <option value="100">100</option>
+          </select>
+
+          <span class="text-muted"> مورد در صفحه </span>
+        </div>
+
+        <!-- Pagination -->
+
+        @if (totalPages() > 1) {
+          <nav>
+            <ul class="pagination mb-0">
+              <!-- Previous -->
+
+              <li class="page-item" [class.disabled]="page() === 1">
+                <button
+                  type="button"
+                  class="page-link"
+                  (click)="onPageChange(page() - 1)"
+                  [disabled]="page() === 1"
+                >
+                  <i class="bx bx-chevron-right"></i>
+                </button>
+              </li>
+
+              <!-- Pages -->
+
+              @for (pageNumber of pages(); track pageNumber) {
+                <li class="page-item" [class.active]="pageNumber === page()">
+                  <button type="button" class="page-link" (click)="onPageChange(pageNumber)">
+                    {{ pageNumber }}
+                  </button>
+                </li>
+              }
+
+              <!-- Next -->
+
+              <li class="page-item" [class.disabled]="page() === totalPages()">
+                <button
+                  type="button"
+                  class="page-link"
+                  (click)="onPageChange(page() + 1)"
+                  [disabled]="page() === totalPages()"
+                >
+                  <i class="bx bx-chevron-left"></i>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        }
+      </div>
+    }
+  </div>
+</div>

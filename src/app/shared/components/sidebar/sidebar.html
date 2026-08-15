@@ -3,6 +3,7 @@
   class="layout-menu menu-vertical menu bg-menu-theme"
   [class.collapsed]="isSidebarCollapsed"
 >
+
   <div class="app-brand demo">
     <a routerLink="/" class="app-brand-link">
       <span class="logo-style">store</span>
@@ -24,103 +25,75 @@
 
   <ul class="menu-inner py-1">
 
-    <li
-      class="menu-item"
-      [class.active]="activeMenu === 'dashboard'"
-      [class.open]="activeMenu === 'dashboard'"
-    >
-      <a
-        href="javascript:void(0)"
-        class="menu-link menu-toggle"
-        (click)="toggleMenu('dashboard')"
+    <ng-container *ngFor="let item of menuItems">
+
+      <li
+        class="menu-item"
+        *ngIf="canShowMenu(item)"
+        [class.active]="activeMenu === item.title"
+        [class.open]="activeMenu === item.title"
       >
-        <i class="menu-icon tf-icons bx bx-home-circle"></i>
 
-        <div data-i18n="Dashboards">
-          داشبورد
-        </div>
-      </a>
+        <!-- دارای فرزند -->
+        <ng-container *ngIf="item.children?.length; else singleItem">
 
-      <ul
-        class="menu-sub"
-        [class.show]="activeMenu === 'dashboard'"
-      >
-        <li class="menu-item">
-          <a routerLink="/" class="menu-link">
-            <div>صفحه اصلی</div>
+          <a
+            href="javascript:void(0)"
+            class="menu-link menu-toggle"
+            (click)="toggleMenu(item.title)"
+          >
+            <i
+              *ngIf="item.icon"
+              class="menu-icon tf-icons bx"
+              [class]="'menu-icon tf-icons bx ' + item.icon"
+            ></i>
+
+            <div>{{ item.title }}</div>
           </a>
-        </li>
 
-        <li class="menu-item">
-          <a routerLink="/settings" class="menu-link">
-            <div>تنظیمات</div>
+          <ul
+            class="menu-sub"
+            [class.show]="activeMenu === item.title"
+          >
+
+            <li
+              class="menu-item"
+              *ngFor="let child of getVisibleChildren(item)"
+            >
+              <a
+                [routerLink]="child.route"
+                class="menu-link"
+              >
+                <div>{{ child.title }}</div>
+              </a>
+            </li>
+
+          </ul>
+
+        </ng-container>
+
+        <ng-template #singleItem>
+
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            class="menu-link"
+          >
+            <i
+              *ngIf="item.icon"
+              class="menu-icon tf-icons bx"
+              [class]="'menu-icon tf-icons bx ' + item.icon"
+            ></i>
+
+            <div>{{ item.title }}</div>
           </a>
-        </li>
-      </ul>
-    </li>
 
-    <!-- کاربران -->
-    <li
-      class="menu-item"
-      [class.active]="activeMenu === 'users'"
-      [class.open]="activeMenu === 'users'"
-    >
-      <a
-        href="javascript:void(0)"
-        class="menu-link menu-toggle"
-        (click)="toggleMenu('users')"
-      >
-        <i class="menu-icon tf-icons bx bx-user"></i>
+        </ng-template>
 
-        <div data-i18n="Layouts">
-          کاربران
-        </div>
-      </a>
+      </li>
 
-      <ul
-        class="menu-sub"
-        [class.show]="activeMenu === 'users'"
-      >
-        <li class="menu-item">
-          <a routerLink="/users" class="menu-link">
-            <div>لیست کاربران</div>
-          </a>
-        </li>
-
-        <li class="menu-item">
-          <a routerLink="/users/permissions" class="menu-link">
-            <div>دسترسی ها</div>
-          </a>
-        </li>
-
-        <li class="menu-item">
-          <a routerLink="/users/roles" class="menu-link">
-            <div>نقش ها</div>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="menu-item">
-      <a routerLink="/permissions" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-lock"></i>
-        <div>دسترسی ها</div>
-      </a>
-    </li>
-
-    <li class="menu-item">
-      <a routerLink="/roles" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-folder-minus"></i>
-        <div>نقش ها</div>
-      </a>
-    </li>
-
-    <li class="menu-item">
-      <a routerLink="/sessions" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-desktop"></i>
-        <div>نشست ها</div>
-      </a>
-    </li>
+    </ng-container>
 
   </ul>
+
 </aside>

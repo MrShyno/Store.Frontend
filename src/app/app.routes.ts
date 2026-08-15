@@ -29,7 +29,7 @@ export const routes: Routes = [
           .then(m => m.Index)
       },
       {
-        path: 'users',
+        path: 'users/list',
         canActivate: [hasPermissionGuard('usersGetAllUsers')],
         loadComponent: () => import('./features/dashboard/users/list/user-list')
           .then(m => m.UserList)

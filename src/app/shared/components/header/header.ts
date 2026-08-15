@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthenticateService } from '../../../core/services/authenticate';
 
 @Component({
   selector: 'app-header',
@@ -9,18 +10,28 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./header.css']
 })
 export class Header {
-  @Output() logout = new EventEmitter<void>();
-  currentTime = new Date();
+  private readonly authService = inject(AuthenticateService);
 
-  onLogout(): void {
-    this.logout.emit();
-  }
+  @Output() logout = new EventEmitter<void>();
 
   openDropdown: 'notifications' | 'user' | null = null;
 
+  currentTime = new Date();
+
+  get user() {
+    return this.authService.getCurrentUser();
+  }
+
+  onLogout(): void {
+    this.logout.emit();
+    this.closeDropdown();
+  }
+
   toggleDropdown(type: 'notifications' | 'user'): void {
     this.openDropdown =
-      this.openDropdown === type ? null : type;
+      this.openDropdown === type
+        ? null
+        : type;
   }
 
   closeDropdown(): void {
