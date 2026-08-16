@@ -16,6 +16,8 @@ import {
   ListOption
 } from '../../../../shared/components/data-list/data-list';
 import { User } from '../../../../models/Users/user';
+import { Permission } from '../../../../shared/components/permission/permission';
+import { RouterLink } from '@angular/router';
 
 
 
@@ -26,7 +28,9 @@ import { User } from '../../../../models/Users/user';
 
   imports: [
     DataList,
-    DatePipe
+    DatePipe,
+    Permission,
+    RouterLink
   ],
 
   templateUrl: './user-list.html',
@@ -102,7 +106,7 @@ export class UserList
     if (!value) {
       return undefined;
     }
-    
+
     return `${this.selectedSearchField()}=*${value}`;
   }
 }

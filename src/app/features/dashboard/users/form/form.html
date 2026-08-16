@@ -1,0 +1,186 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <!-- Breadcrumb -->
+  <h4 class="py-3 breadcrumb-wrapper mb-4">
+    <span class="text-muted fw-light"> کاربران / </span>
+
+    {{ pageTitle }}
+  </h4>
+  <!-- Form -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <!-- Header -->
+        <div
+          class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row"
+        >
+          <h5 class="card-title mb-sm-0 me-2">
+            {{ pageTitle }}
+          </h5>
+
+          <div class="action-btns d-flex gap-2">
+            <button type="button" class="btn btn-label-primary" (click)="goBack()">
+              <span class="align-middle"> بازگشت </span>
+            </button>
+
+            @if (!isViewMode) {
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onSubmit()"
+                [disabled]="submitting"
+              >
+                @if (submitting) {
+                  <span class="spinner-border spinner-border-sm me-1"></span>
+
+                  در حال ذخیره...
+                } @else {
+                  {{ submitText }}
+                }
+              </button>
+            }
+          </div>
+        </div>
+
+
+
+        <!-- Form Content -->
+
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-8 mx-auto">
+                  <div class="row g-3">
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                      <label class="form-label" for="firstName"> نام </label>
+
+                      <input
+                        type="text"
+                        id="firstName"
+                        class="form-control"
+                        formControlName="firstName"
+                        placeholder="نام"
+                      />
+
+                      @if (hasError('firstName', 'required')) {
+                        <div class="text-danger small mt-1">وارد کردن نام الزامی است.</div>
+                      }
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="col-md-6">
+                      <label class="form-label" for="lastName"> نام خانوادگی </label>
+
+                      <input
+                        type="text"
+                        id="lastName"
+                        class="form-control"
+                        formControlName="lastName"
+                        placeholder="نام خانوادگی"
+                      />
+
+                      @if (hasError('lastName', 'required')) {
+                        <div class="text-danger small mt-1">وارد کردن نام خانوادگی الزامی است.</div>
+                      }
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6">
+                      <label class="form-label" for="phone"> شماره تماس </label>
+
+                      <input
+                        type="text"
+                        id="phone"
+                        class="form-control text-start"
+                        formControlName="phone"
+                        dir="ltr"
+                        placeholder="09120000000"
+                      />
+
+                      @if (hasError('phone', 'required')) {
+                        <div class="text-danger small mt-1">وارد کردن شماره تماس الزامی است.</div>
+                      }
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                      <label class="form-label" for="email"> ایمیل </label>
+
+                      <input
+                        type="email"
+                        id="email"
+                        class="form-control text-start"
+                        formControlName="email"
+                        dir="ltr"
+                        placeholder="example@example.com"
+                      />
+
+                      @if (hasError('email', 'email')) {
+                        <div class="text-danger small mt-1">فرمت ایمیل صحیح نیست.</div>
+                      }
+                    </div>
+
+                    <!-- National Code -->
+                    <div class="col-md-6">
+                      <label class="form-label" for="nationalCode"> کد ملی </label>
+
+                      <input
+                        type="text"
+                        id="nationalCode"
+                        class="form-control text-start"
+                        formControlName="nationalCode"
+                        dir="ltr"
+                        placeholder="0012345678"
+                      />
+                    </div>
+
+                    <!-- Password -->
+                    @if (isCreateMode) {
+                      <div class="col-md-6">
+                        <label class="form-label" for="password"> رمز عبور </label>
+
+                        <input
+                          type="password"
+                          id="password"
+                          class="form-control text-start"
+                          formControlName="password"
+                          dir="ltr"
+                          placeholder="رمز عبور"
+                        />
+
+                        @if (hasError('password', 'required')) {
+                          <div class="text-danger small mt-1">وارد کردن رمز عبور الزامی است.</div>
+                        }
+
+                        @if (hasError('password', 'minlength')) {
+                          <div class="text-danger small mt-1">
+                            رمز عبور باید حداقل ۸ کاراکتر باشد.
+                          </div>
+                        }
+                      </div>
+                    }
+
+                    <!-- View information -->
+                    @if (isViewMode) {
+                      <div class="col-md-6">
+                        <label class="form-label"> وضعیت </label>
+
+                        <input
+                          type="text"
+                          class="form-control"
+                          [value]="form.disabled ? 'نمایش' : 'نمایش'"
+                          readonly
+                        />
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        
+
+      </div>
+    </div>
+  </div>
+</div>

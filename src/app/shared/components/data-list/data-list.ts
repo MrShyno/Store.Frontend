@@ -7,7 +7,7 @@ import {
   model,
   output
 } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 import { Permission } from '../permission/permission';
 
 
@@ -31,7 +31,6 @@ export interface ListOption {
     CommonModule,
     RouterLink,
     Permission
-
   ]
 })
 export class DataList {

@@ -1,3 +1,4 @@
+import { UserForm } from './features/dashboard/users/form/form';
 import { Routes } from '@angular/router';
 import { authenticateGuard } from './core/guards/authenticate-guard';
 import { hasPermissionGuard } from './core/guards/hasPermission/has-permission-guard';
@@ -6,7 +7,6 @@ import { AdminLayout } from './layout/admin-layout/admin-layout';
 export const routes: Routes = [
   {
     path: 'auth',
-    // AuthLayout will be used for all auth pages
     loadComponent: () => import('./layout/auth-layout/auth-layout')
       .then(m => m.AuthLayout),
     children: [
@@ -38,6 +38,24 @@ export const routes: Routes = [
         canActivate: [hasPermissionGuard('usersGetAllUsers')],
         loadComponent: () => import('./features/dashboard/users/list/user-list')
           .then(m => m.UserList)
+      },
+      {
+        path: 'users/create',
+        canActivate: [hasPermissionGuard('usersCreateUser')],
+        loadComponent: () => import('./features/dashboard/users/form/form')
+          .then(m => m.UserForm)
+      },
+      {
+        path: 'users/edit/:id',
+        canActivate: [hasPermissionGuard('usersUpdateUser')],
+        loadComponent: () => import('./features/dashboard/users/form/form')
+          .then(m => m.UserForm)
+      },
+      {
+        path: 'users/view/:id',
+        canActivate: [hasPermissionGuard('usersGetUserById')],
+        loadComponent: () => import('./features/dashboard/users/form/form')
+          .then(m => m.UserForm)
       },
       { path: '', redirectTo: 'index', pathMatch: 'full' }
     ]

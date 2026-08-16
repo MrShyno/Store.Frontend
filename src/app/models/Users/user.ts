@@ -49,3 +49,20 @@ export interface User {
 
   createdAt: string;
 }
+export interface CreateUserRequest {
+  firstName: string;
+  lastName: string;
+  password: string;
+  phone: string;
+  email?: string;
+  meliCode?: string;
+}
+
+export interface UpdateUserRequest {
+  id: number;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email?: string;
+  meliCode?: string;
+}
