@@ -30,3 +30,22 @@ export interface UserInfo {
   firstName: string;
   lastName: string;
 }
+
+export interface User {
+
+  id: number;
+
+  firstName: string;
+
+  lastName: string;
+
+  phone: string;
+
+  email: string;
+
+  disabled: boolean;
+
+  nationalCode: string | null;
+
+  createdAt: string;
+}

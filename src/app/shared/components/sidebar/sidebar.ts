@@ -1,43 +1,108 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
-import { SidebarMenuItem } from '../../../models/Sidebar/SidebarMenuItem';
-import { sidebarMenu } from '../../../config/sidebar-menu';
-import { AuthenticateService } from '../../../core/services/authenticate';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal
+} from '@angular/core';
+
+import {
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
+
+import {
+  SidebarMenuItem
+} from '../../../models/Sidebar/SidebarMenuItem';
+
+import {
+  sidebarMenu
+} from '../../../config/sidebar-menu';
+
+import {
+  AuthenticateService
+} from '../../../core/services/authenticate';
+
 
 @Component({
   selector: 'app-sidebar',
+
   standalone: true,
+
   imports: [
-    CommonModule,
-     RouterModule,
-     RouterLink
-    ],
+    RouterLink,
+    RouterLinkActive
+  ],
+
   templateUrl: './sidebar.html',
-  styleUrls: ['./sidebar.css']
+
+  styleUrl: './sidebar.css',
+
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Sidebar {
-  private authService = inject(AuthenticateService);
 
-  isSidebarCollapsed = false;
-  activeMenu: string | null = 'dashboard';
+  private readonly authService =
+    inject(AuthenticateService);
 
-  menuItems = sidebarMenu;
+
+  // =========================================================
+  // State
+  // =========================================================
+
+  readonly isSidebarCollapsed =
+    signal(false);
+
+  readonly activeMenu =
+    signal<string | null>('dashboard');
+
+
+  // =========================================================
+  // Menu
+  // =========================================================
+
+  readonly menuItems: readonly SidebarMenuItem[] =
+    sidebarMenu;
+
+
+  readonly visibleMenuItems = computed(() =>
+    this.menuItems.filter(item =>
+      this.canShowMenu(item)
+    )
+  );
+
+
+  // =========================================================
+  // Sidebar
+  // =========================================================
 
   toggleSidebar(): void {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.isSidebarCollapsed.update(
+      collapsed => !collapsed
+    );
   }
+
+
+  // =========================================================
+  // Menu
+  // =========================================================
 
   toggleMenu(menu: string): void {
-    if (this.activeMenu === menu) {
-      this.activeMenu = null;
-      return;
-    }
 
-    this.activeMenu = menu;
+    this.activeMenu.update(current =>
+      current === menu
+        ? null
+        : menu
+    );
   }
 
+
+  // =========================================================
+  // Permissions
+  // =========================================================
+
   hasPermission(permission?: string): boolean {
+
     if (!permission) {
       return true;
     }
@@ -45,13 +110,20 @@ export class Sidebar {
     return this.authService.hasPermission(permission);
   }
 
-  canShowMenu(item: SidebarMenuItem): boolean {
 
-    if (item.permission && this.hasPermission(item.permission)) {
+  canShowMenu(
+    item: SidebarMenuItem
+  ): boolean {
+
+    if (
+      item.permission &&
+      this.hasPermission(item.permission)
+    ) {
       return true;
     }
 
     if (item.children?.length) {
+
       return item.children.some(child =>
         this.canShowMenu(child)
       );
@@ -60,10 +132,13 @@ export class Sidebar {
     return !item.permission;
   }
 
-  getVisibleChildren(item: SidebarMenuItem): SidebarMenuItem[] {
+
+  getVisibleChildren(
+    item: SidebarMenuItem
+  ): readonly SidebarMenuItem[] {
+
     return item.children?.filter(child =>
       this.canShowMenu(child)
     ) ?? [];
   }
 }
-

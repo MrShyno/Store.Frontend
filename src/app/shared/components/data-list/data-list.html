@@ -15,11 +15,13 @@
         </p>
       }
     </div>
-    @if (isAddable()) {
-      <button class="btn btn-primary">
-        <i class="bx bx-plus"></i>
-        افزودن
-      </button>
+    @if (isAddable() && addRoute()) {
+      <app-permission [permission]="addPermission()">
+        <a [routerLink]="addRoute()" class="btn btn-primary">
+          <i class="bx bx-plus"></i>
+          افزودن
+        </a>
+      </app-permission>
     }
   </div>
 

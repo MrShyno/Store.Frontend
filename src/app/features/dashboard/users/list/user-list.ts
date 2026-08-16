@@ -15,26 +15,8 @@ import {
   DataList,
   ListOption
 } from '../../../../shared/components/data-list/data-list';
+import { User } from '../../../../models/Users/user';
 
-
-interface User {
-
-  id: number;
-
-  firstName: string;
-
-  lastName: string;
-
-  phone: string;
-
-  email: string;
-
-  disabled: boolean;
-
-  nationalCode: string | null;
-
-  createdAt: string;
-}
 
 
 @Component({
@@ -55,11 +37,6 @@ export class UserList
   extends BaseList<User>
   implements OnInit {
 
-
-  // =========================================================
-  // Search Fields
-  // =========================================================
-
   readonly searchFields: readonly ListOption[] = [
 
     {
@@ -78,16 +55,11 @@ export class UserList
     },
 
     {
-      label: 'ایمیل',
-      value: 'email'
+      label: 'کد ملی',
+      value: 'nationalCode'
     }
 
   ];
-
-
-  // =========================================================
-  // Order Fields
-  // =========================================================
 
   readonly orderFields: readonly ListOption[] = [
 
@@ -106,34 +78,14 @@ export class UserList
       value: 'lastName'
     },
 
-    {
-      label: 'شماره موبایل',
-      value: 'phone'
-    },
-
-    {
-      label: 'ایمیل',
-      value: 'email'
-    }
-
   ];
-
-
-  // =========================================================
-  // API
-  // =========================================================
 
   protected override getEndpoint(): string {
     return 'admin/Users/GetAllUsers';
   }
 
-
-  // =========================================================
-  // Init
-  // =========================================================
-
   ngOnInit(): void {
-
+    // set defaults
     this.selectedSearchField.set('firstName');
 
     this.selectedOrderField.set('createdAt');
@@ -143,11 +95,6 @@ export class UserList
     this.loadItems();
   }
 
-
-  // =========================================================
-  // Filter
-  // =========================================================
-
   protected override buildFilter(): string | undefined {
 
     const value = this.searchText().trim();
@@ -155,7 +102,7 @@ export class UserList
     if (!value) {
       return undefined;
     }
-
+    
     return `${this.selectedSearchField()}=*${value}`;
   }
 }

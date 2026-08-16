@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,6 +7,8 @@ import {
   model,
   output
 } from '@angular/core';
+import { RouterLink } from "@angular/router";
+import { Permission } from '../permission/permission';
 
 
 export interface ListOption {
@@ -23,7 +26,13 @@ export interface ListOption {
 
   styleUrl: './data-list.css',
 
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    RouterLink,
+    Permission
+
+  ]
 })
 export class DataList {
 
@@ -60,9 +69,6 @@ export class DataList {
   readonly rowCount = input(0);
 
   readonly totalPages = input(1);
-
-  readonly isAddable = input(true);
-
 
   // =========================================================
   // Search
@@ -115,10 +121,12 @@ export class DataList {
   // =========================================================
   // Actions
   // =========================================================
-
-  onSearch(): void {
-    this.search.emit();
-  }
+  readonly isAddable = input(true);
+  readonly addRoute = input('');
+  readonly addPermission = input<string | null>(null);
+    onSearch(): void {
+      this.search.emit();
+    }
 
 
   onClear(): void {
