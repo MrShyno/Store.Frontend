@@ -1,0 +1,19 @@
+.page-item:first-child .page-link {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+}
+
+.page-item:first-child {
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.page-item:last-child .page-link {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+}
+
+.page-item:last-child {
+  border-radius: 0.25rem 0 0 0.25rem ;
+}

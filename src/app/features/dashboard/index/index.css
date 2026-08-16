@@ -1,0 +1,23 @@
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.status-dot-success {
+  background-color: #71dd37;
+}
+
+.status-dot-danger {
+  background-color: #ff3e1d;
+}
+
+.status-dot-warning {
+  background-color: #ffab00;
+}
+
+.status-dot-secondary {
+  background-color: #8592a3;
+}
