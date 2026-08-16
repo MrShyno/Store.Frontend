@@ -43,7 +43,26 @@ export class AuthenticateService {
       'admin/Authentication/GenerateCaptcha', null
     );
   }
-
+  register(
+    firstName: string,
+    lastName: string,
+    phone: string,
+    password: string,
+    captchaId: string,
+    captchaAnswer: string
+  ) {
+    return this.httpService.post<any>(
+      "admin/Authentication/Register",
+      {
+        firstName,
+        lastName,
+        phone,
+        password,
+        captchaId,
+        captchaAnswer
+      }
+    );
+  }
   login
     (
       phone: string,

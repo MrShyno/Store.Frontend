@@ -149,6 +149,11 @@
   }
 }
 
+
 button.submit:disabled {
   opacity: 60%;
+}
+
+.error-message {
+  color: #ed001f;
 }

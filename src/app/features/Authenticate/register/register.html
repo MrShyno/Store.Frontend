@@ -1,0 +1,185 @@
+<div class="login-container">
+
+  <form
+    class="form"
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()">
+
+    <p class="title">
+      ثبت نام
+    </p>
+
+    <p class="message">
+      برای ایجاد حساب کاربری اطلاعات خود را وارد کنید.
+    </p>
+
+    <div class="d-flex gap-2">
+
+      <label class="col">
+        <input
+          type="text"
+          class="input"
+          formControlName="firstName"
+          placeholder=" "
+          autocomplete="given-name">
+
+        <span>
+          نام
+        </span>
+      </label>
+
+      <label class="col">
+        <input
+          type="text"
+          class="input"
+          formControlName="lastName"
+          placeholder=" "
+          autocomplete="family-name">
+
+        <span>
+          نام خانوادگی
+        </span>
+      </label>
+
+    </div>
+
+    <label>
+      <input
+        type="text"
+        class="input"
+        formControlName="phone"
+        placeholder=" "
+        autocomplete="tel"
+        maxlength="11">
+
+      <span>
+        تلفن
+      </span>
+    </label>
+
+    <label>
+      <input
+        type="password"
+        class="input"
+        formControlName="password"
+        placeholder=" "
+        autocomplete="new-password">
+
+      <span>
+        رمز عبور
+      </span>
+    </label>
+
+    <label>
+      <input
+        type="password"
+        class="input"
+        formControlName="confirmPassword"
+        placeholder=" "
+        autocomplete="new-password">
+
+      <span>
+        تکرار رمز عبور
+      </span>
+    </label>
+
+    @if (
+      registerForm.hasError('passwordMismatch') &&
+      registerForm.get('confirmPassword')?.touched
+    ) {
+
+      <div class="error-message">
+        رمز عبور و تکرار رمز عبور یکسان نیستند.
+      </div>
+
+    }
+
+    <div class="d-flex">
+
+      <div class="d-flex col-lg-6 col-xl-6 col-md-6 col-sm-12">
+
+        <button
+          type="button"
+          class="captcha-refresh col-2"
+          (click)="generateCaptcha()"
+          [disabled]="captchaLoading()">
+
+          ↻
+
+        </button>
+
+        @if (captchaImage()) {
+
+          <img
+            [src]="captchaImage()"
+            alt="کد امنیتی"
+            class="captcha-image col-9">
+
+        }
+
+      </div>
+
+      <label class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+
+        <input
+          type="text"
+          class="input"
+          formControlName="captchaAnswer"
+          placeholder=" "
+          autocomplete="off"
+          maxlength="6">
+
+        <span>
+          کد امنیتی
+        </span>
+
+      </label>
+
+    </div>
+
+    @if (errorMessage()) {
+
+      <div class="error-message">
+        {{ errorMessage() }}
+      </div>
+
+    }
+
+    <button
+      type="submit"
+      class="submit"
+      [disabled]="
+        registerForm.invalid ||
+        isLoading() ||
+        captchaLoading()
+      ">
+
+      @if (!isLoading()) {
+
+        <span>
+          ثبت نام
+        </span>
+
+      } @else {
+
+        <span>
+          در حال ثبت نام...
+        </span>
+
+      }
+
+    </button>
+
+    <p class="signin">
+
+      قبلاً حساب کاربری دارید؟
+
+      <a routerLink="/auth/login">
+        ورود
+      </a>
+
+    </p>
+
+  </form>
+
+</div>
