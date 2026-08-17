@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   OnInit
 } from '@angular/core';
 
@@ -18,6 +19,8 @@ import {
 import { User } from '../../../../models/Users/user';
 import { Permission } from '../../../../shared/components/permission/permission';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../../../../core/services/Users/user-service';
+import { ToastService } from '../../../../core/services/toast/toast';
 
 
 
@@ -41,6 +44,9 @@ export class UserList
   extends BaseList<User>
   implements OnInit {
 
+  private readonly httpUserService = inject(UserService);
+
+  private readonly toast = inject(ToastService);
   readonly searchFields: readonly ListOption[] = [
 
     {
@@ -89,7 +95,7 @@ export class UserList
   }
 
   ngOnInit(): void {
-    // set defaults
+
     this.selectedSearchField.set('firstName');
 
     this.selectedOrderField.set('createdAt');
@@ -97,6 +103,87 @@ export class UserList
     this.selectedOrderDirection.set('desc');
 
     this.loadItems();
+  }
+
+  onDelete(userId: number): void {
+
+    this.httpUserService
+      .removeUser(userId)
+      .subscribe({
+        next: response => {
+
+          if (response.isSuccess) {
+
+            this.toast.success('کاربر حذف شد.');
+            this.loadItems();
+            return;
+          }
+
+          this.toast.error(
+            response.message || 'حذف کاربر انجام نشد.'
+          );
+        },
+
+        error: error => {
+
+          console.error(error);
+          this.toast.error('حذف کاربر با خطا مواجه شد.');
+        }
+      });
+  }
+
+
+  onDisable(userId: number): void {
+
+    this.httpUserService
+      .disableUser(userId)
+      .subscribe({
+        next: response => {
+
+          if (response.isSuccess) {
+            this.toast.success('کاربر غیرفعال شد.');
+            this.loadItems();
+            return;
+          }
+
+          this.toast.error(
+            response.message || 'غیرفعال کردن کاربر انجام نشد.'
+          );
+        },
+
+        error: error => {
+          console.error(error);
+          this.toast.error(
+            'غیرفعال کردن کاربر با خطا مواجه شد.'
+          );
+        }
+      });
+  }
+
+
+  onEnable(userId: number): void {
+
+    this.httpUserService
+      .enableUser(userId)
+      .subscribe({
+        next: response => {
+
+          if (response.isSuccess) {
+            this.toast.success('کاربر فعال شد.');
+            this.loadItems();
+            return;
+          }
+
+          this.toast.error(
+            response.message || 'فعال کردن کاربر انجام نشد.'
+          );
+        },
+
+        error: error => {
+          console.error(error);
+          this.toast.error('فعال کردن کاربر با خطا مواجه شد.');
+        }
+      });
   }
 
   protected override buildFilter(): string | undefined {

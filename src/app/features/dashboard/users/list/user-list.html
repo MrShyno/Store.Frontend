@@ -47,14 +47,9 @@
       <tbody>
         @for (user of items(); track user.id) {
           <tr>
-            <!-- ID -->
-
             <td>
               {{ user.id }}
             </td>
-
-            <!-- Name -->
-
             <td>
               <div class="d-flex align-items-center">
                 <div class="avatar avatar-sm me-2">
@@ -72,26 +67,15 @@
               </div>
             </td>
 
-            <!-- Phone -->
-
             <td>
               {{ user.phone || '-' }}
             </td>
-
-            <!-- Email -->
-
             <td>
               {{ user.email || '-' }}
             </td>
-
-            <!-- National Code -->
-
             <td>
               {{ user.nationalCode || '-' }}
             </td>
-
-            <!-- Status -->
-
             <td>
               @if (!user.disabled) {
                 <span class="badge bg-label-success"> فعال </span>
@@ -99,21 +83,15 @@
                 <span class="badge bg-label-danger"> غیرفعال </span>
               }
             </td>
-
-            <!-- Created At -->
-
             <td>
               {{ user.createdAt | date: 'yyyy/MM/dd HH:mm' }}
             </td>
-
-            <!-- Actions -->
-
             <td>
               <div class="d-flex justify-content-center gap-1">
                 <app-permission [permission]="'usersGetUserById'">
                   <a
                     [routerLink]="['/dashboard/users/view', user.id]"
-                    class="btn btn-sm btn-icon btn-text-secondary"
+                    class="btn btn-sm btn-icon text-primary"
                   >
                     <i class="bx bx-show"></i>
                   </a>
@@ -129,12 +107,23 @@
                 </app-permission>
 
                 <app-permission [permission]="'usersRemoveUser'">
-                  <a onclick="delete(user.id)"
-                    class="btn btn-sm btn-icon btn-text-secondary"
-                  >
+                  <a (click)="onDelete(user.id)" class="btn btn-sm btn-icon text-danger">
                     <i class="bx bx-trash"></i>
                   </a>
                 </app-permission>
+                @if (!user.disabled) {
+                  <app-permission [permission]="'usersDisableUserById'">
+                    <a (click)="onDisable(user.id)" class="btn btn-sm btn-icon text-warning">
+                      <i class="bx bx-block"></i>
+                    </a>
+                  </app-permission>
+                } @else {
+                  <app-permission [permission]="'usersDisableUserById'">
+                    <a (click)="onEnable(user.id)" class="btn btn-sm btn-icon text-success">
+                      <i class="bx bx-refresh"></i>
+                    </a>
+                  </app-permission>
+                }
               </div>
             </td>
           </tr>
