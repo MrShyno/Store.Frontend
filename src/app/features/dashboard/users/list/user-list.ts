@@ -20,7 +20,7 @@ import { User } from '../../../../models/Users/user';
 import { Permission } from '../../../../shared/components/permission/permission';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../../../core/services/Users/user-service';
-import { ToastService } from '../../../../core/services/toast/toast';
+import { ToastService } from '../../../../core/services/Toast/toast';
 
 
 

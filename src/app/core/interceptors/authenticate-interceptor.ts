@@ -10,7 +10,6 @@ export const authenticateInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const http = inject(HttpService);
 
-  // Skip refresh endpoint itself to avoid loops
   if (req.url.includes('Authentication/RefreshToken')) {
     return next(req);
   }

@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { BehaviorSubject, Observable, tap, of, switchMap } from 'rxjs';
 import { HttpService } from './http';
-import { TokenStorageService } from './token-storage/token-storage';
+import { TokenStorageService } from './TokenStorage/token-storage';
 import { UserInfo, UserFullData } from '../../models/Users/user';
 import { CaptchaResponse } from '../../models/Captcha/CaptchaResponse';
 
@@ -150,14 +150,15 @@ export class AuthenticateService {
 
     return this.fetchUserWithRolePermissions();
   }
-  logout(): void {
+
+  logout(): Observable<any> {
     sessionStorage.removeItem('user_info');
     this.currentUserSubject.next(null);
     this.currentUser.set(null);
     this.userName.set('');
     this.userPermissions.set([]);
     this.tokenStorage.clearTokens();
-    this.httpService.post('admin/Authentication/Logout', {}).subscribe();
+    return this.httpService.post('admin/Authentication/Logout', {});
   }
 
   refreshToken(): Observable<RefreshTokenResponse> {

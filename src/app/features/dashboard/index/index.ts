@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import {
   HealthCheck,
   HealthCheckService
-} from '../../../core/services/health-check/health-check';
+} from '../../../core/services/HealthCheck/health-check';
 
 @Component({
   selector: 'app-index',
@@ -266,7 +266,7 @@ export class Index implements OnInit, OnDestroy {
       hour12: false
     }).format(parsedDate);
   }
-  
+
   formatDuration(duration: string): string {
     const parts = duration.split(':');
 

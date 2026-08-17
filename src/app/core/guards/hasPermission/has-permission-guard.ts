@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthenticateService } from '../../services/authenticate';
-import { ToastService } from '../../services/toast/toast';
+import { ToastService } from '../../services/Toast/toast';
 
 export function hasPermissionGuard(permission: string): CanActivateFn {
   return () => {

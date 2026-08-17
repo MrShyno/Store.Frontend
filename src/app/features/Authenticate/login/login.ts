@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   OnInit,
   signal
 } from '@angular/core';
@@ -15,7 +16,8 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { AuthenticateService } from '../../../core/services/authenticate';
-import { ToastService } from '../../../core/services/toast/toast';
+import { ToastService } from '../../../core/services/Toast/toast';
+import { NotificationSignalRService } from '../../../core/services/SignalR/notification-signalr';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +41,6 @@ export class Login implements OnInit {
 
   captchaImage = signal('');
   captchaId = signal('');
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticateService,
@@ -48,7 +49,7 @@ export class Login implements OnInit {
   ) {
     this.loginForm = this.fb.group({
       phone: ['',
-         [
+        [
           Validators.required,
         ]
       ],
@@ -146,12 +147,11 @@ export class Login implements OnInit {
         captchaAnswer
       )
       .subscribe({
-        next: (response) => {
+        next: async (response) => {
 
           this.isLoading.set(false);
 
           if (response.isSuccess) {
-
             this.toast.success(
               'خوش آمدید!',
               'ورود موفق'
