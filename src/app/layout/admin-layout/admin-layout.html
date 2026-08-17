@@ -1,14 +1,11 @@
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
-    <!-- side -->
 
     <app-sidebar></app-sidebar>
 
     <div class="layout-page">
-      <!-- nav -->
       <app-header (logout)="onLogout()"></app-header>
       <div class="content-wrapper d-block">
-        <!-- page content -->
         <router-outlet></router-outlet>
 
         <div class="content-backdrop fade"></div>

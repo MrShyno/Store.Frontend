@@ -1,15 +1,12 @@
 <div class="container-xxl flex-grow-1 container-p-y">
-  <!-- Breadcrumb -->
   <h4 class="py-3 breadcrumb-wrapper mb-4">
     <span class="text-muted fw-light"> کاربران / </span>
 
     {{ pageTitle }}
   </h4>
-  <!-- Form -->
   <div class="row">
     <div class="col-12">
       <div class="card">
-        <!-- Header -->
         <div
           class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row"
         >
@@ -40,17 +37,11 @@
             }
           </div>
         </div>
-
-
-
-        <!-- Form Content -->
-
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-8 mx-auto">
                   <div class="row g-3">
-                    <!-- First Name -->
                     <div class="col-md-6">
                       <label class="form-label" for="firstName"> نام </label>
 
@@ -67,7 +58,6 @@
                       }
                     </div>
 
-                    <!-- Last Name -->
                     <div class="col-md-6">
                       <label class="form-label" for="lastName"> نام خانوادگی </label>
 
@@ -84,7 +74,6 @@
                       }
                     </div>
 
-                    <!-- Phone -->
                     <div class="col-md-6">
                       <label class="form-label" for="phone"> شماره تماس </label>
 
@@ -102,7 +91,6 @@
                       }
                     </div>
 
-                    <!-- Email -->
                     <div class="col-md-6">
                       <label class="form-label" for="email"> ایمیل </label>
 
@@ -120,7 +108,6 @@
                       }
                     </div>
 
-                    <!-- National Code -->
                     <div class="col-md-6">
                       <label class="form-label" for="nationalCode"> کد ملی </label>
 
@@ -134,7 +121,6 @@
                       />
                     </div>
 
-                    <!-- Password -->
                     @if (isCreateMode) {
                       <div class="col-md-6">
                         <label class="form-label" for="password"> رمز عبور </label>
@@ -160,7 +146,6 @@
                       </div>
                     }
 
-                    <!-- View information -->
                     @if (isViewMode) {
                       <div class="col-md-6">
                         <label class="form-label"> وضعیت </label>
@@ -178,8 +163,6 @@
               </div>
             </div>
           </form>
-        
-
       </div>
     </div>
   </div>

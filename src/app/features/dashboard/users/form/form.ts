@@ -56,11 +56,6 @@ export class UserForm implements OnInit {
 
   private readonly toast = inject(ToastService);
 
-
-  // -----------------------------
-  // State
-  // -----------------------------
-
   form!: FormGroup;
 
   mode: UserFormMode = 'create';
@@ -69,10 +64,6 @@ export class UserForm implements OnInit {
 
 
   submitting = false;
-
-  // -----------------------------
-  // Computed state
-  // -----------------------------
 
   get isCreateMode(): boolean {
     return this.mode === 'create';
@@ -117,11 +108,6 @@ export class UserForm implements OnInit {
 
     this.resolveMode();
   }
-
-
-  // -----------------------------
-  // Form
-  // -----------------------------
 
   private createForm(): void {
 
@@ -174,11 +160,6 @@ export class UserForm implements OnInit {
     });
   }
 
-
-  // -----------------------------
-  // Mode
-  // -----------------------------
-
   private resolveMode(): void {
 
     const url = this.route.snapshot.url;
@@ -223,11 +204,6 @@ export class UserForm implements OnInit {
     }
   }
 
-
-  // -----------------------------
-  // Mode configuration
-  // -----------------------------
-
   private applyCreateMode(): void {
 
     const passwordControl =
@@ -254,11 +230,6 @@ export class UserForm implements OnInit {
 
     this.form.disable();
   }
-
-
-  // -----------------------------
-  // Load User
-  // -----------------------------
 
   private loadUser(): void {
 
@@ -293,11 +264,6 @@ export class UserForm implements OnInit {
       });
   }
 
-
-  // -----------------------------
-  // Submit
-  // -----------------------------
-
   onSubmit(): void {
 
     if (this.isViewMode) {
@@ -327,11 +293,6 @@ export class UserForm implements OnInit {
       return;
     }
   }
-
-
-  // -----------------------------
-  // Create
-  // -----------------------------
 
   private createUser(): void {
 
@@ -390,11 +351,6 @@ export class UserForm implements OnInit {
       });
   }
 
-
-  // -----------------------------
-  // Update
-  // -----------------------------
-
   private updateUser(): void {
 
     if (!this.userId) {
@@ -451,20 +407,10 @@ export class UserForm implements OnInit {
       });
   }
 
-
-  // -----------------------------
-  // Navigation
-  // -----------------------------
-
   goBack(): void {
 
     this.router.navigate(['/users']);
   }
-
-
-  // -----------------------------
-  // Validation helper
-  // -----------------------------
 
   hasError(
     controlName: string,

@@ -184,7 +184,6 @@ export class AuthenticateService {
   }
 }
 
-// Interfaces
 interface LoginResponse {
   data: {
     userId: number;

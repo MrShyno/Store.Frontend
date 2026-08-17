@@ -8,7 +8,6 @@ export const toastInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      // Don't show toast for 401 (handled by auth interceptor)
       if (error.status !== 401) {
         let message = 'An unexpected error occurred';
 

@@ -36,7 +36,6 @@ export class ToastService {
     });
   }
 
-  // For API responses
   showApiResponse(response: any): void {
     if (response.success) {
       this.success(response.message || 'Operation completed successfully');
@@ -45,7 +44,6 @@ export class ToastService {
     }
   }
 
-  // For HTTP errors
   showHttpError(error: any): void {
     let message = 'An unexpected error occurred';
 

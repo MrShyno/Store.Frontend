@@ -4,7 +4,6 @@
 >
   <div class="container-fluid">
 
-    <!-- Mobile Sidebar Toggle -->
     <div
       class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
     >
@@ -42,7 +41,6 @@
             [class.show]="openDropdown === 'notifications'"
           >
 
-            <!-- Header -->
             <li class="dropdown-menu-header border-bottom">
               <div class="dropdown-header d-flex align-items-center py-3">
 
@@ -149,7 +147,6 @@
               <div class="dropdown-divider"></div>
             </li>
 
-            <!-- Profile -->
             <li>
               <a
                 class="dropdown-item"
@@ -163,7 +160,6 @@
               </a>
             </li>
 
-            <!-- Settings -->
             <app-permission hasPermission="userSessionGetUserSessionsByUserId">
               <li>
                 <a
@@ -183,7 +179,6 @@
               <div class="dropdown-divider"></div>
             </li>
 
-            <!-- Logout -->
             <li>
               <a
                 class="dropdown-item"
