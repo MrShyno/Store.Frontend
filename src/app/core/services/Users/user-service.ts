@@ -14,7 +14,8 @@ export class UserService {
   private readonly endpoint = 'admin/Users';
 
 
-  getAllUsers(
+  getAllUsers
+  (
     params?: {
       filter?: string;
       orderBy?: string;
@@ -29,7 +30,8 @@ export class UserService {
   }
 
 
-  getUserById(
+  getUserById
+  (
     id: number
   ): Observable<any> {
     return this.http.get<any>(
@@ -38,7 +40,8 @@ export class UserService {
   }
 
 
-  createUser(
+  createUser
+  (
     request: CreateUserRequest
   ): Observable<any> {
     return this.http.post<any>(
@@ -48,7 +51,8 @@ export class UserService {
   }
 
 
-  updateUser(
+  updateUser
+  (
     request: UpdateUserRequest
   ): Observable<any> {
     return this.http.put<any>(
@@ -58,7 +62,8 @@ export class UserService {
   }
 
 
-  removeUser(
+  removeUser
+  (
     id: number
   ): Observable<any> {
     return this.http.delete<any>(
@@ -67,7 +72,8 @@ export class UserService {
   }
 
 
-  revokeUser(
+  revokeUser
+  (
     id: number
   ): Observable<any> {
     return this.http.get<any>(
@@ -76,7 +82,8 @@ export class UserService {
   }
 
 
-  disableUser(
+  disableUser
+  (
     userId: number
   ): Observable<any> {
     return this.http.post<any>(
@@ -86,7 +93,8 @@ export class UserService {
   }
 
 
-  enableUser(
+  enableUser
+  (
     userId: number
   ): Observable<any> {
     return this.http.post<any>(
@@ -103,11 +111,31 @@ export class UserService {
   }
 
 
-  getUserByIdWithRolePermissions(
+  getUserByIdWithRolePermissions
+  (
     id: number
   ): Observable<any> {
     return this.http.get<any>(
       `${this.endpoint}/GetUserByIdWithRolePermissions/${id}`
+    );
+  }
+
+  revokeSession
+  (
+    refreshToken: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      `admin/UserSessions/RevokeSessionByRefreshToken`,
+      { refreshToken }
+    );
+  }
+
+  getUserSessionsByUserId
+  (
+    userId: number
+  ): Observable<any> {
+    return this.http.get<any>(
+      `admin/UserSessions/GetUserSessionsByUserId/${userId}`
     );
   }
 }

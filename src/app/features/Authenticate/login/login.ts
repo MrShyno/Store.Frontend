@@ -48,7 +48,8 @@ export class Login implements OnInit {
     private toast: ToastService
   ) {
     this.loginForm = this.fb.group({
-      phone: ['',
+      phone: [
+        '',
         [
           Validators.required,
         ]
@@ -61,6 +62,8 @@ export class Login implements OnInit {
           Validators.minLength(8)
         ]
       ],
+
+      rememberMe: [true],
 
       captchaAnswer: [
         '',
@@ -135,6 +138,7 @@ export class Login implements OnInit {
     const {
       phone,
       password,
+      rememberMe,
       captchaId,
       captchaAnswer
     } = this.loginForm.value;
@@ -143,6 +147,7 @@ export class Login implements OnInit {
       .login(
         phone,
         password,
+        rememberMe,
         captchaId,
         captchaAnswer
       )

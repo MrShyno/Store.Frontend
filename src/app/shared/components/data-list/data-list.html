@@ -1,8 +1,4 @@
 <div class="container-fluid py-4">
-  <!-- =======================================================
-       Header
-  ======================================================== -->
-
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h4 class="mb-1">
@@ -24,10 +20,6 @@
       </app-permission>
     }
   </div>
-
-  <!-- =======================================================
-       Filter
-  ======================================================== -->
 
   <div class="card mb-4">
     <div class="card-body">
@@ -90,7 +82,6 @@
           </div>
         }
 
-        <!-- Direction -->
 
         @if (orderFields().length > 0) {
           <div class="col-md-2">
@@ -112,7 +103,6 @@
           </div>
         }
 
-        <!-- Buttons -->
 
         <div class="col-12 d-flex gap-2">
           <button type="button" class="btn btn-primary" (click)="onSearch()" [disabled]="loading()">
@@ -136,19 +126,11 @@
     </div>
   </div>
 
-  <!-- =======================================================
-       Error
-  ======================================================== -->
-
   @if (errorMessage()) {
     <div class="alert alert-danger">
       {{ errorMessage() }}
     </div>
   }
-
-  <!-- =======================================================
-       Main Card
-  ======================================================== -->
 
   <div class="card">
     <!-- Card Header -->
@@ -161,10 +143,6 @@
       <span class="text-muted"> {{ rowCount() }} مورد </span>
     </div>
 
-    <!-- =====================================================
-         Loading
-    ====================================================== -->
-
     @if (loading()) {
       <div class="d-flex flex-column align-items-center justify-content-center py-5">
         <div class="spinner-border text-primary" role="status">
@@ -175,10 +153,6 @@
       </div>
     }
 
-    <!-- =====================================================
-         Empty
-    ====================================================== -->
-
     @else if (items().length === 0) {
       <div class="d-flex flex-column align-items-center justify-content-center py-5">
         <i class="bx bx-data fs-1 text-muted"></i>
@@ -187,17 +161,9 @@
       </div>
     }
 
-    <!-- =====================================================
-         Content
-    ====================================================== -->
-
     @else {
       <ng-content />
     }
-
-    <!-- =====================================================
-         Footer
-    ====================================================== -->
 
     @if (!loading() && items().length > 0) {
       <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-3">

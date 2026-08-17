@@ -45,21 +45,11 @@ export class Sidebar {
   private readonly authService =
     inject(AuthenticateService);
 
-
-  // =========================================================
-  // State
-  // =========================================================
-
   readonly isSidebarCollapsed =
     signal(false);
 
   readonly activeMenu =
     signal<string | null>('dashboard');
-
-
-  // =========================================================
-  // Menu
-  // =========================================================
 
   readonly menuItems: readonly SidebarMenuItem[] =
     sidebarMenu;
@@ -71,21 +61,11 @@ export class Sidebar {
     )
   );
 
-
-  // =========================================================
-  // Sidebar
-  // =========================================================
-
   toggleSidebar(): void {
     this.isSidebarCollapsed.update(
       collapsed => !collapsed
     );
   }
-
-
-  // =========================================================
-  // Menu
-  // =========================================================
 
   toggleMenu(menu: string): void {
 
@@ -96,11 +76,6 @@ export class Sidebar {
     );
   }
 
-
-  // =========================================================
-  // Permissions
-  // =========================================================
-
   hasPermission(permission?: string): boolean {
 
     if (!permission) {
@@ -109,7 +84,6 @@ export class Sidebar {
 
     return this.authService.hasPermission(permission);
   }
-
 
   canShowMenu(
     item: SidebarMenuItem

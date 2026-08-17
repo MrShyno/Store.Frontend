@@ -67,6 +67,7 @@ export class AuthenticateService {
     (
       phone: string,
       password: string,
+      rememberMe: boolean,
       captchaId: string,
       captchaAnswer: string
     ): Observable<UserFullDataResponse> {
@@ -77,6 +78,7 @@ export class AuthenticateService {
         {
           phone,
           password,
+          rememberMe,
           captchaId,
           captchaAnswer
         }

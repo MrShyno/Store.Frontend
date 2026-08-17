@@ -14,11 +14,6 @@ export abstract class BaseList<T> {
 
   protected readonly http = inject(HttpService);
 
-
-  // =========================================================
-  // State
-  // =========================================================
-
   readonly items = signal<T[]>([]);
 
   readonly loading = signal(false);
@@ -43,10 +38,6 @@ export abstract class BaseList<T> {
     signal<'asc' | 'desc'>('desc');
 
 
-  // =========================================================
-  // Computed
-  // =========================================================
-
   readonly pages = computed(() =>
     Array.from(
       { length: this.totalPages() },
@@ -54,26 +45,11 @@ export abstract class BaseList<T> {
     )
   );
 
-
-  // =========================================================
-  // API
-  // =========================================================
-
   protected abstract getEndpoint(): string;
-
-
-  // =========================================================
-  // Filter
-  // =========================================================
 
   protected buildFilter(): string | undefined {
     return undefined;
   }
-
-
-  // =========================================================
-  // Order
-  // =========================================================
 
   protected buildOrderBy(): string | undefined {
 
@@ -87,11 +63,6 @@ export abstract class BaseList<T> {
       ? `${field} desc`
       : field;
   }
-
-
-  // =========================================================
-  // Load
-  // =========================================================
 
   loadItems(): void {
 
@@ -148,18 +119,12 @@ export abstract class BaseList<T> {
       });
   }
 
-
-  // =========================================================
-  // Search
-  // =========================================================
-
   search(): void {
 
     this.page.set(1);
 
     this.loadItems();
   }
-
 
   clearSearch(): void {
 
@@ -169,11 +134,6 @@ export abstract class BaseList<T> {
 
     this.loadItems();
   }
-
-
-  // =========================================================
-  // Pagination
-  // =========================================================
 
   changePage(page: number): void {
 
@@ -192,7 +152,6 @@ export abstract class BaseList<T> {
 
     this.loadItems();
   }
-
 
   changePageSize(pageSize: number): void {
 

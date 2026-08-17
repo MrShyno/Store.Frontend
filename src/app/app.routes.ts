@@ -57,6 +57,12 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/users/form/form')
           .then(m => m.UserForm)
       },
+      {
+        path: 'user/sessions',
+        canActivate: [hasPermissionGuard('userSessionGetUserSessionsByUserId')],
+        loadComponent: () => import('./features/dashboard/UserSessions/list/user-session-list')
+          .then(m => m.UserSessionList)
+      },
       { path: '', redirectTo: 'index', pathMatch: 'full' }
     ]
   },

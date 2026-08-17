@@ -5,13 +5,7 @@
     <p class="message">برای دسترسی به داشبورد مدیریت خود وارد شوید.</p>
 
     <label>
-      <input
-        type="text"
-        class="input"
-        formControlName="phone"
-        placeholder=""
-        autocomplete="tel"
-      />
+      <input type="text" class="input" formControlName="phone" placeholder="" autocomplete="tel" />
       <span>تلفن</span>
     </label>
 
@@ -59,7 +53,14 @@
         {{ errorMessage() }}
       </div>
     }
-
+    <div class="form-check">
+      <input
+      type="checkbox"
+      class="form-check-input"
+      formControlName="rememberMe"
+      />
+      <label class="form-check-label"> مرا به خاطر بسپار </label>
+    </div>
     <button
       type="submit"
       class="submit"

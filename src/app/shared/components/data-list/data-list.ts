@@ -35,31 +35,17 @@ export interface ListOption {
 })
 export class DataList {
 
-  // =========================================================
-  // General
-  // =========================================================
-
   readonly title = input('');
 
   readonly description = input('');
 
   readonly tableTitle = input('');
 
-
-  // =========================================================
-  // Data
-  // =========================================================
-
   readonly items = input<readonly unknown[]>([]);
 
   readonly loading = input(false);
 
   readonly errorMessage = input('');
-
-
-  // =========================================================
-  // Pagination
-  // =========================================================
 
   readonly page = input(1);
 
@@ -69,21 +55,12 @@ export class DataList {
 
   readonly totalPages = input(1);
 
-  // =========================================================
-  // Search
-  // =========================================================
-
   readonly searchText = model('');
 
   readonly searchField = model('');
 
   readonly searchFields =
     input<readonly ListOption[]>([]);
-
-
-  // =========================================================
-  // Order
-  // =========================================================
 
   readonly orderField = model('');
 
@@ -94,20 +71,12 @@ export class DataList {
     input<readonly ListOption[]>([]);
 
 
-  // =========================================================
-  // Events
-  // =========================================================
-
   readonly search = output<void>();
 
   readonly clear = output<void>();
 
   readonly pageChange = output<number>();
 
-
-  // =========================================================
-  // Computed
-  // =========================================================
 
   readonly pages = computed(() =>
     Array.from(
@@ -116,10 +85,6 @@ export class DataList {
     )
   );
 
-
-  // =========================================================
-  // Actions
-  // =========================================================
   readonly isAddable = input(true);
   readonly addRoute = input('');
   readonly addPermission = input<string | null>(null);

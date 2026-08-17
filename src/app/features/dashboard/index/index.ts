@@ -25,10 +25,6 @@ export class Index implements OnInit, OnDestroy {
 
   private readonly healthService = inject(HealthCheckService);
 
-  // =========================
-  // State
-  // =========================
-
   readonly healthChecks = signal<HealthCheck[]>([]);
 
   readonly healthLoading = signal(true);
@@ -37,10 +33,6 @@ export class Index implements OnInit, OnDestroy {
 
   private healthSubscription?: Subscription;
 
-
-  // =========================
-  // Computed
-  // =========================
 
   readonly overallStatus = computed(() => {
 
@@ -78,18 +70,9 @@ export class Index implements OnInit, OnDestroy {
   });
 
 
-  // =========================
-  // Lifecycle
-  // =========================
-
   ngOnInit(): void {
     this.loadHealthCheck();
   }
-
-
-  // =========================
-  // API
-  // =========================
 
   loadHealthCheck(): void {
 
@@ -126,11 +109,6 @@ export class Index implements OnInit, OnDestroy {
 
       });
   }
-
-
-  // =========================
-  // Service
-  // =========================
 
   getServiceTitle(name: string): string {
 
@@ -198,10 +176,6 @@ export class Index implements OnInit, OnDestroy {
   }
 
 
-  // =========================
-  // Status
-  // =========================
-
   getStatusBadgeClass(status: string): string {
 
     switch (status.toLowerCase()) {
@@ -239,11 +213,6 @@ export class Index implements OnInit, OnDestroy {
     }
   }
 
-
-  // =========================
-  // Date
-  // =========================
-
   formatDate(date: string | undefined): string {
 
     if (!date) {
@@ -279,10 +248,6 @@ export class Index implements OnInit, OnDestroy {
 
     return `${totalMilliseconds.toFixed(3)} ms`;
   }
-
-  // =========================
-  // Destroy
-  // =========================
 
   ngOnDestroy(): void {
     this.healthSubscription?.unsubscribe();

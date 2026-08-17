@@ -1,11 +1,17 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthenticateService } from '../../../core/services/authenticate';
+import { RouterLink } from '@angular/router';
+import { Permission } from '../permission/permission';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    Permission,
+    RouterLink
+  ],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
