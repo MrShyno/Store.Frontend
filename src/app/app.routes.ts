@@ -1,4 +1,3 @@
-import { UserForm } from './features/dashboard/users/form/form';
 import { Routes } from '@angular/router';
 import { authenticateGuard } from './core/guards/authenticate-guard';
 import { hasPermissionGuard } from './core/guards/hasPermission/has-permission-guard';
