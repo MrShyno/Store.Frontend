@@ -1,0 +1,134 @@
+<app-data-list
+  [title]="'دسته بندی ها'"
+  [description]="'مدیریت و مشاهده دسته بندی ها سیستم'"
+  [tableTitle]="'لیست دسته بندی ها'"
+  [loading]="loading()"
+  [errorMessage]="errorMessage()"
+  [items]="items()"
+  [rowCount]="rowCount()"
+  [page]="page()"
+  [(pageSize)]="pageSize"
+  [totalPages]="totalPages()"
+  [(searchText)]="searchText"
+  [(searchField)]="selectedSearchField"
+  [searchFields]="searchFields"
+  [(orderField)]="selectedOrderField"
+  [(orderDirection)]="selectedOrderDirection"
+  [orderFields]="orderFields"
+  [isAddable]="true"
+  [addRoute]="'/dashboard/categories/create'"
+  [addPermission]="'categoriesCreateCategory'"
+  (search)="search()"
+  (clear)="clearSearch()"
+  (pageChange)="changePage($event)"
+>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>#</th>
+
+          <th>نام و نام خانوادگی</th>
+
+          <th>موبایل</th>
+
+          <th>ایمیل</th>
+
+          <th>کد ملی</th>
+
+          <th>وضعیت</th>
+
+          <th>تاریخ ایجاد</th>
+
+          <th class="text-center">عملیات</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (category of items(); track category.id) {
+          <tr>
+            <td>
+              {{ category.id }}
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="avatar avatar-sm me-2">
+                  <span class="avatar-initial rounded-circle bg-label-primary">
+                    {{ category.firstName.charAt(0) }}
+                  </span>
+                </div>
+
+                <div>
+                  <div class="fw-semibold">
+                    {{ category.firstName }}
+                    {{ category.lastName }}
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              {{ category.phone || '-' }}
+            </td>
+            <td>
+              {{ category.email || '-' }}
+            </td>
+            <td>
+              {{ category.nationalCode || '-' }}
+            </td>
+            <td>
+              @if (!category.disabled) {
+                <span class="badge bg-label-success"> فعال </span>
+              } @else {
+                <span class="badge bg-label-danger"> غیرفعال </span>
+              }
+            </td>
+            <td>
+              {{ category.createdAt | date: 'yyyy/MM/dd HH:mm' }}
+            </td>
+            <td>
+              <div class="d-flex justify-content-center gap-1">
+                <app-permission [permission]="'categoriesGetCategoryById'">
+                  <a
+                    [routerLink]="['/dashboard/categories/view', category.id]"
+                    class="btn btn-sm btn-icon text-primary"
+                  >
+                    <i class="bx bx-show"></i>
+                  </a>
+                </app-permission>
+
+                <app-permission [permission]="'categoriesUpdateCategory'">
+                  <a
+                    [routerLink]="['/dashboard/categories/edit', category.id]"
+                    class="btn btn-sm btn-icon btn-text-secondary"
+                  >
+                    <i class="bx bx-edit"></i>
+                  </a>
+                </app-permission>
+
+                <app-permission [permission]="'categoriesRemoveCategory'">
+                  <a (click)="onDelete(category.id)" class="btn btn-sm btn-icon text-danger">
+                    <i class="bx bx-trash"></i>
+                  </a>
+                </app-permission>
+                @if (!category.disabled) {
+                  <app-permission [permission]="'categoriesDisableCategoryById'">
+                    <a (click)="onDisable(category.id)" class="btn btn-sm btn-icon text-warning">
+                      <i class="bx bx-block"></i>
+                    </a>
+                  </app-permission>
+                } @else {
+                  <app-permission [permission]="'categoriesDisableCategoryById'">
+                    <a (click)="onEnable(category.id)" class="btn btn-sm btn-icon text-success">
+                      <i class="bx bx-refresh"></i>
+                    </a>
+                  </app-permission>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-data-list>
