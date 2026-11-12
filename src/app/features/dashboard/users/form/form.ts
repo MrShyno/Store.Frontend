@@ -24,7 +24,7 @@ import {
 import {
   UserService
 } from '../../../../core/services/Users/user-service';
-import { ToastService } from '../../../../core/services/Toast/toast';
+import { ToastService } from '../../../../core/services/toast/toast';
 
 
 type UserFormMode = 'create' | 'edit' | 'view';

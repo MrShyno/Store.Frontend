@@ -1,4 +1,4 @@
-import { ToastService } from './../../../../core/services/Toast/toast';
+import { ToastService } from './../../../../core/services/toast/toast';
 import {
   ChangeDetectionStrategy,
   Component,

@@ -26,7 +26,7 @@ import {
 
 import {
   ToastService
-} from '../../../core/services/Toast/toast';
+} from '../../../core/services/toast/toast';
 
 @Component({
   selector: 'app-register',

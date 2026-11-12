@@ -16,7 +16,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { AuthenticateService } from '../../../core/services/authenticate';
-import { ToastService } from '../../../core/services/Toast/toast';
+import { ToastService } from '../../../core/services/toast/toast';
 import { NotificationSignalRService } from '../../../core/services/SignalR/notification-signalr';
 
 @Component({
